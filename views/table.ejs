@@ -1,0 +1,54 @@
+<%
+function tag(name,contents){
+  return '<' + name + '>' + contents + '</' + name + '>' 
+}
+function list(l,type,cell){
+  type = type || "ol"
+  cell = cell || "li"
+  
+  return tag(type, l.map(function (e){return tag(cell,e)}).join(' ') )
+  }
+%>
+
+<style>
+  body {
+    background: #224;
+    color: #eee;
+    visited: #efe;
+  }
+  .success {
+    color: green;
+  }
+  .failure {
+    color: yellow;
+  }
+  .error {
+    color: red;
+  }
+
+</style>
+<h1> <a href="/">meta-modular</a> / </h1>
+
+<table>
+
+
+<%
+title = 'all'
+rows = rows.sort()
+cols = cols.sort()
+%>
+<%-
+list([
+  list([''].concat(rows),'tr','th')
+  ].concat(
+  cols.map(function (c){
+    var index = c.replace('/home/dominic/dev/','')
+    return list([index].concat(rows.map(function (r){
+      return get(r,c)
+    })),'tr','td')
+
+  })),'table','tr')
+ %>
+
+
+
