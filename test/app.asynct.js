@@ -9,6 +9,7 @@ var app = require('../app')
   , port = 3001
   , client = require('../client')
   , queue = require('queue-width')
+
 /*
 need setup and teardown support for asynct.
 
@@ -26,6 +27,13 @@ function get(path,cb){
 
 exports.__setup = function (test){
   console.log("SETUP")
+  /*
+  all I need to do here is setup the app smaller, and run the tests.
+  
+  and the right database into app.js
+  
+  */
+  
   app.listen(port,host,test.done)
 }
 

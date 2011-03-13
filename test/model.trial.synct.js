@@ -23,6 +23,7 @@ var Trial = require ('../model/trial')
     , command: it.typeof('string')
     , version: it.typeof('string')
     , status: it.matches(/init|complete/)
+    , type: 'trial'
     })
 
   if(test){

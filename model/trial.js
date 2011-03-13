@@ -18,6 +18,7 @@ function Trial (test, platform){
      this.status = 'init'
      this._id = hash(JSON.stringify({filename: test.filename, platform: platform._id}))
      this.test = test._id
+     this.type = 'trial'
 
 }
 

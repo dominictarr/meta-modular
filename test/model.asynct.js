@@ -1,4 +1,4 @@
-var model = require('../model')/*({prefix: 'test', modu})*/
+var model = require('../model') /*({prefix: 'test', modu})*/
   , it = require('it-is')
 
 exports.__setup = function (test){
