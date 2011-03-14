@@ -1,4 +1,4 @@
-var odm = require('cradle-model')
+var odm = require('couchlegs')
   , ctrl = require('ctrlflow')
   , Trial = require('./trial')
   

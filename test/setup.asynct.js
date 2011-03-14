@@ -43,43 +43,57 @@ function assertSame(db,local,field){
 exports['add platforms'] = function (test){
 
   var g = ctrl.group()
- 
-  model.modules.save(platforms,next)
 
-  function next(err){
+  ctrl.seq([
+    function (){
+      model.modules.save(platforms,this.next)
+    },
+    function next(err){
     it(err).equal(null)
 
-    model.modules.view('platforms/new',function (err,data){
+    model.modules.view('platforms/new',this.next)
+    },
+    function (err,data){
       var saved = data.rows.map(function (e){return e.value})
       it(saved).has(platforms)
 
-      model.rollout(function (err,count){
-        model.modules.view('platforms/all',function (err,data){
-          var saved = data.rows.map(function (e){return e.value})
+      model.rollout(this.next)
+    },
+    function (err,count){
+      model.modules.view('platforms/all',this.next)
+    },
+    function (err,data){
+      var saved = data.rows.map(function (e){return e.value})
 
-          assertSame(saved,platforms,'version')
-          test.done()    
-        })      
-      })
-    })    
-  }
+      assertSame(saved,platforms,'version')
+      test.done()    
+    }])()
+  /*
+  suddenly, I can't belive i didn't start using a control flow lib earlier.    
+  */
 }
 
 exports ['add tests'] = function (test){
   var g = ctrl.group()
 
-  model.modules.save(tests,function (err){
-    model.rollout(function (err,count){
-      model.modules.view('tests/all',function (err,data){
-        it(err).equal(null)
-        var saved = data.rows.map(function (e){return e.value})
 
-        assertSame(saved,tests,'filename')
+  ctrl.seq([
+    function (){
+      model.modules.save(tests,this.next)
+    },
+    function (err){
+      model.rollout(this.next)
+    },
+    function (err,count){
+      model.modules.view('tests/all',this.next)
+    },
+    function (err,data){
+      it(err).equal(null)
+      var saved = data.rows.map(function (e){return e.value})
+      assertSame(saved,tests,'filename')
 
-        test.done()    
-      })      
-    })
-  })
+      test.done()    
+    }])()
 }
 
 exports ['check trails'] = function (test){

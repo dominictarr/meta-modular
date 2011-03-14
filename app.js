@@ -20,12 +20,16 @@
 var express = require('express')
   , Matrix = require('matrix')
 //  , client = require('./client')
-  , client = require('./model')({prefix: 'dev'})
   
+  , client 
+  , odm = require('./model')
+
 
 var app = module.exports = express.createServer();
 
 // Configuration
+
+app.model = client
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -37,18 +41,21 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.model = odm({prefix: 'dev'})
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
+  app.model = odm()
   app.use(express.errorHandler()); 
 });
+
 
 // Routes
 
 app.get('/', function(req, res){
 //  client.trials.view('/trials/_design/views/_view/results', {} ,function (err,data){
-  client.trials.view('views/results', {} ,function (err,data){
+  app.model.trials.view('views/results', {} ,function (err,data){
 
     var table = 
       Matrix.tabulate(data.rows,function (r,index){
@@ -67,7 +74,7 @@ app.get('/favicon.ico', function(req, res){
 
 app.get('/:id', function(req, res){
 
-  client.trials.get(req.params.id,function (err,data){
+  app.model.trials.get(req.params.id,function (err,data){
     res.render('trial', data);
   })
 });

@@ -43,6 +43,8 @@ done.
 
 write simpler test for app (which doesn't require running ALL the tests)
 
+done.
+
 ~~~
 
 save stdout & stderr
@@ -50,8 +52,6 @@ save stdout & stderr
 ~~~
 
 commandline like search for files with wildcards.
-
-~~~
 
 http push to set tests to run. and to install package.
 

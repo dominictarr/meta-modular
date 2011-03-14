@@ -4,45 +4,29 @@
 
 var app = require('../app')
   , it = require('it-is')
+  , example = require('./lib/example-db')
   , request = require('request')
   , host = 'localhost'
   , port = 3001
-  , client = require('../client')
-  , queue = require('queue-width')
+  , ctrl = require('ctrlflow')
+  , model 
 
-/*
-need setup and teardown support for asynct.
-
-also, need to dump error if process is hanging.
-
-response assertion for it-is?
-
-it would mean implementing async assertions.
-
-*/
+exports.__setup = function (test){
+  example.tests(function(err,_model){
+    model = app.model = _model
+    app.listen(port,host,test.done)
+  })
+}
 
 function get(path,cb){
   request({uri: 'http://' + host + ':' + port + path},cb)
 }
 
-exports.__setup = function (test){
-  console.log("SETUP")
-  /*
-  all I need to do here is setup the app smaller, and run the tests.
-  
-  and the right database into app.js
-  
-  */
-  
-  app.listen(port,host,test.done)
-}
 
 exports ['GET /'] = function(test){
 
   get('/',function (err,res,body){
-//    console.log(err)  
-  //  console.log(res)  
-    
+
     it(err).equal(null)
     it(res).has({
       statusCode: 200
@@ -56,11 +40,16 @@ exports ['GET /'] = function(test){
 
 exports ['GET /:id'] = function(test){
 
-  client.trials.view('/trials/_design/views/_view/results',function (err,data){
-    queue(data.rows, 100).forEach(function (e){
-      var self = this
+  model.trials.view('views/results',function (err,data){
+    ctrl.width(data.rows, 1).forEach(function (e){
+      var next = this.next
       get('/' + e.id,function (err,res,body){
-        self.next()
+          it(err).equal(null)
+          it(res).has({
+            statusCode: 200
+          , headers: { 'content-type': 'text/html' }
+          })
+        next()
       })
     },test.done)
   })
@@ -68,5 +57,6 @@ exports ['GET /:id'] = function(test){
 
 exports.__teardown = function (test){
   app.close()
-  test.done()
 } 
+//*/
+
