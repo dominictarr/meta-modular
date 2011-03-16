@@ -30,7 +30,7 @@ exports ['GET /'] = function(test){
     it(err).equal(null)
     it(res).has({
       statusCode: 200
-    , headers: { 'content-type': 'text/html' }
+    , headers: { 'content-type': it.matches(/text\/html/) }
     })
 
     test.done()
@@ -47,7 +47,7 @@ exports ['GET /:id'] = function(test){
           it(err).equal(null)
           it(res).has({
             statusCode: 200
-          , headers: { 'content-type': 'text/html' }
+          , headers: { 'content-type': it.matches(/text\/html/) }
           })
         next()
       })
