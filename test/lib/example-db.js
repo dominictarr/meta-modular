@@ -9,9 +9,9 @@ var it = require('it-is')
       host: 'localhost'
     , port: 3001
     , tests: [
-        new Test(__dirname + '/examples/pass.node.js')
-      , new Test(__dirname + '/examples/fail.synct.js')
-      , new Test(__dirname + '/examples/error.node.js')
+        new Test(__dirname + '/../examples/pass.node.js')
+      , new Test(__dirname + '/../examples/fail.synct.js')
+      , new Test(__dirname + '/../examples/error.node.js')
       ]
     , platforms: Platform.all().filter(function (e){
         return -1 != ['v0.2.6','v0.3.2','v0.4.2'].indexOf(e.version)

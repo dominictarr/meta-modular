@@ -43,6 +43,7 @@ exports ['GET /:id'] = function(test){
   model.trials.view('views/results',function (err,data){
     ctrl.width(data.rows, 1).forEach(function (e){
       var next = this.next
+      console.log("get",e.id)
       get('/' + e.id,function (err,res,body){
           it(err).equal(null)
           it(res).has({

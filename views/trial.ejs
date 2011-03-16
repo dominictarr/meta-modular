@@ -7,8 +7,8 @@
     }).join('\n')
   }
   %>
-<h1> <a href="/">meta-modular</a> / <a href="<%= _id %>"><%= _id %></a></h1>
-<h3> filename: <%= filename %> </h3>
+<h1> <a href="/">meta-modular</a> / <a href="<%= data._id %>"><%= data._id %></a></h1>
+<h3> filename: <%= data.filename %> </h3>
 
 <style>
   body {
@@ -28,18 +28,18 @@
 
 
 </style>
-<h3> version: <%= platform + '-' + version %> </h3>
+<h3> version: <%= data.platform + '-' + data.version %> </h3>
 
-<h3> status:<span class=<%= _status = (report ? report.status  : status) %> >  <%= _status%> </span> </h3>
+<h3> status:<span class=<%= _status = (data.report ? data.report.status  : data.status) %> >  <%= _status%> </span> </h3>
 <div style="width:600px;">
 
-<%- errors(report.errors) %>
+<%- errors(data.report.errors) %>
 
 <ul>
-    <% for(var i=0; i < report.tests.length; i++) { %>
+    <% for(var i=0; i < data.report.tests.length; i++) { %>
         <li >
-          <span class=<%= report.tests[i].status %>> <%= report.tests[i].status %> </span>' <%= report.tests[i].name %> '
-          <%- errors(report.tests[i].failures) %>
+          <span class=<%= data.report.tests[i].status %>> <%= data.report.tests[i].status %> </span>' <%= data.report.tests[i].name %> '
+          <%- errors(data.report.tests[i].failures) %>
         </li>
     <% } %>
 </ul>

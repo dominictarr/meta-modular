@@ -75,10 +75,27 @@ app.get('/favicon.ico', function(req, res){
 app.get('/:id', function(req, res){
 
   app.model.trials.get(req.params.id,function (err,data){
-    res.render('trial', data);
+  //  res.write('<h1> hello </h1>')
+   // res.end()
+     console.log(data)
+     /*
+      express@2.0.0rc adds support for .status field to render options
+      my data had a field .status which was set to a string. 
+      setting the http status to this broke it.
+      
+      eventually i figured it out, and then read the code and saw what it was doing.
+      
+      ah, again... tj has given me a code collision with data!
+     
+     */
+    res.render('trial', {title: data._id, data: data}/* data/**/);
   })
 });
 
+
+app.on('error', function (err){
+  throw err
+})
 // Only listen on $ node app.js
 
 if (!module.parent) {

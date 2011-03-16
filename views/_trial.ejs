@@ -1,0 +1,54 @@
+<% 
+  function errors(errs) { 
+    return errs.map(function (err){
+      return '<pre>' + err.stack + '</pre>'
+      
+      //partial('./error',err)
+    }).join('\n')
+  }
+  %>
+<h1> <a href="/">meta-modular</a> / <a href="<%= _id %>"><%= _id %></a></h1>
+<h3> filename: <%= filename %> </h3>
+
+<style>
+  body {
+    background: #224;
+    color: #eee;
+    visited: #efe;
+  }
+  .success {
+    color: green;
+  }
+  .failure {
+    color: yellow;
+  }
+  .error {
+    color: red;
+  }
+
+
+</style>
+<h3> version: <%= platform + '-' + version %> </h3>
+
+<h3> status:<span class=<%= _status = (report ? report.status  : status) %> >  <%= _status%> </span> </h3>
+<div style="width:600px;">
+
+<%- errors(report.errors) %>
+
+<ul>
+    <% for(var i=0; i < report.tests.length; i++) { %>
+        <li >
+          <span class=<%= report.tests[i].status %>> <%= report.tests[i].status %> </span>' <%= report.tests[i].name %> '
+          <%- errors(report.tests[i].failures) %>
+        </li>
+    <% } %>
+</ul>
+</div>
+
+<p>
+* dependencies, with links to view source
+
+* list of all tests.
+* list of tests by dependency.
+
+</p>
