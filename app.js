@@ -28,12 +28,14 @@
 
 var express = require('express')
   , Matrix = require('matrix')
+  , render = require('render')
 //  , client = require('./client')
   
   , client 
   , odm = require('./model')
-
-
+  , npm = require('./npm')
+  , Runner = require('./runner')
+  , runner
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -51,14 +53,30 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.model = odm({prefix: 'dev'})
+
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+
+  app.model.initialize(function (err,model){
+    model.modules.save(require('./model/platform').all(),console.log)
+  })
 });
+
 
 app.configure('production', function(){
   app.model = odm()
   app.use(express.errorHandler()); 
 });
 
+npm = npm.model(app.model)
+runner = new Runner(app.model)  
+runner.start()
+app.on('close',function (){runner.stop()})
+
+/*
+app.model.initialize(function (err,model){
+
+  model.modules.save(require('./model/platform').all(),console.log)
+})*/
 
 // Routes
 
@@ -80,6 +98,26 @@ app.get('/', function(req, res){
 app.get('/favicon.ico', function(req, res){
   
 })
+
+app.get('/add',function (req,res){
+
+  if(!req.query || !req.query.pattern){
+
+    res.write('<h1>expected query parameter pattern=package@version/test/*.js or similar</h1>')
+    res.write('<pre>' + render(req.query,{multi: true}) + '</pre>')
+    res.end()
+  
+  } else {
+
+    npm.addTests(req.query,function (err,docs){
+      
+      res.write('<pre>' + render(err || docs,{multi: true}) + '</pre>')
+      res.end()
+    
+    })
+  }
+})
+
 
 app.get('/:id', function(req, res){
 

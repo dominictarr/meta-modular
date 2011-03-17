@@ -16,3 +16,4 @@ function Test (filename, adapter){
   this._id = hash(filename)
   this.type = 'test'
 }
+
