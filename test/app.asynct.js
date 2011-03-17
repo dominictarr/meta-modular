@@ -22,6 +22,8 @@ function get(path,cb){
   request({uri: 'http://' + host + ':' + port + path},cb)
 }
 
+//app.on('error', function (err){throw err})
+app.removeAllListeners('error')//stop on an error
 
 exports ['GET /'] = function(test){
 
@@ -40,6 +42,11 @@ exports ['GET /'] = function(test){
 
 exports ['GET /:id'] = function(test){
 
+  app.on('error', function (err){
+    throw err
+  })
+
+  
   model.trials.view('views/results',function (err,data){
     ctrl.width(data.rows, 1).forEach(function (e){
       var next = this.next

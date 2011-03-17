@@ -1,0 +1,23 @@
+{
+  "name": "meta-modular",
+  "description": "run mass nodejs tests as a service",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dominictarr/meta-modular.git"
+  },
+  "author": "Dominic Tarr <dominic.tarr@gmail.com> (http://bit.ly/dominictarr)",
+  "main": "app.js",
+  "directories": {
+    "lib": "."
+  },
+  "dependencies": {
+    "express": "2.0.0beta2"
+  },
+  "scripts": {
+    "test": "meta-test test/*.js"
+  },
+  "engines": {
+    "node": ">=v0.4.0"
+  }
+}

@@ -2,13 +2,22 @@
  it seems like a good idea to render on the client side etc,
  but it's way simpler, to test etc, to render on the server side.
  
- NEXT: unit tests for the stuff i have so far.
+ NEXT: 
+ 
+ post request API 
+  - to npm (list installed modules)
+  - to install
+  - to add tests
+ 
+
  
  rendering for dependencies
  
  detecting dependency versions
  
  detecting npm package@version (simpler in new npm)
+
+
  
 */
 
@@ -75,9 +84,6 @@ app.get('/favicon.ico', function(req, res){
 app.get('/:id', function(req, res){
 
   app.model.trials.get(req.params.id,function (err,data){
-  //  res.write('<h1> hello </h1>')
-   // res.end()
-     console.log(data)
      /*
       express@2.0.0rc adds support for .status field to render options
       my data had a field .status which was set to a string. 
@@ -92,10 +98,6 @@ app.get('/:id', function(req, res){
   })
 });
 
-
-app.on('error', function (err){
-  throw err
-})
 // Only listen on $ node app.js
 
 if (!module.parent) {
