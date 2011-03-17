@@ -42,7 +42,7 @@ list([
   list([''].concat(rows),'tr','th')
   ].concat(
   cols.map(function (c){
-    var index = c.replace('/home/dominic/dev/','')
+    var index = c.replace(/\/home\/dominic\/(dev|npm)\//,'')
     return list([index].concat(rows.map(function (r){
       return get(r,c)
     })),'tr','td')
